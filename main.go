@@ -22,6 +22,9 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	// Skip the first line 'BEGIN\n'
 	_ = scanner.Scan()
+
+	// Process each line in until it reaches 'END\n'
+	// For each line, convert it to a Tx and add it to the aggregator
 	for scanner.Scan() {
 		line := scanner.Text()
 		var tx Tx
@@ -46,6 +49,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// Print the aggregated results
 	for _, agg := range aggs {
 		result := agg.Aggregate()
 		json, err := json.Marshal(result)

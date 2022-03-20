@@ -1,5 +1,6 @@
 package main
 
+// Aggregator stores states that are used to calculate results specified in AggregatedResult
 type Aggregator struct {
 	Market        int64
 	TotalVolume   float64
@@ -9,6 +10,7 @@ type Aggregator struct {
 	BuyCount      int64
 }
 
+// Wanted result of the challenge
 type AggregatedResult struct {
 	Market                     int64   `json:"market"`
 	TotalVolume                float64 `json:"total_volume"`
