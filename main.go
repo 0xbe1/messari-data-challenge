@@ -20,16 +20,23 @@ func main() {
 	aggs := map[int64]*Aggregator{}
 
 	scanner := bufio.NewScanner(os.Stdin)
+	// Skip the first line 'BEGIN\n'
+	_ = scanner.Scan()
 	for scanner.Scan() {
+		line := scanner.Text()
 		var tx Tx
-		err := json.Unmarshal([]byte(scanner.Text()), &tx)
+		err := json.Unmarshal([]byte(line), &tx)
 		if err != nil {
-			log.Fatal(err)
+			if line == "END" {
+				break
+			} else {
+				log.Fatal(err)
+			}
 		}
 		var marketAgg *Aggregator
 		if agg, ok := aggs[tx.Market]; !ok {
-			aggs[tx.Id] = &Aggregator{Market: tx.Market}
-			marketAgg = aggs[tx.Id]
+			aggs[tx.Market] = &Aggregator{Market: tx.Market}
+			marketAgg = aggs[tx.Market]
 		} else {
 			marketAgg = agg
 		}
